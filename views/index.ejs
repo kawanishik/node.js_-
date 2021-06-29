@@ -1,0 +1,58 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link rel="stylesheet" type="views/css" href="main.css">
+<title>掲示板</title>
+<style type="text/css">
+    thead, tbody {
+      display: block;
+    }
+    tbody {
+      overflow-x: hidden;
+      overflow-y: scroll;
+      height: 400px;
+    }
+</style>
+</head>
+    <body>
+        <nav class="navbar navbar-dark bg-primary mb-2">
+            <a href="#" class="navbar-brand">掲示板</a>
+        </nav>
+        
+        <div class="container">
+            <form action="/" method="POST">
+                <div class="form-group">
+                    <label for="text1">user : </label>
+                    <input type="text" id="message" name="message" class="form-control" autofocus>
+                    <label for="text2">メッセージ:</label>
+                    <input type="text" id="message" name="message" class="form-control" autofocus>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-outline-success">送信</button>
+                </div>
+            </form>
+            <ul class="list-group">
+                <!-- <% message_list.forEach(function (name, message, key) { %>
+                    <li class="list-group-item"><%= name %> <%= message %></li>
+                <% }); %> -->
+                会話履歴の表示
+                <div>
+                    <table border="1">
+                        <thread>
+                            <tr><th>User名</th><th>投稿内容</th><th>投稿時間</th></tr>
+                        </thread>
+                        <tdbody>
+                            <% for (var i=0; i < message_list[0].length; i++) {%>
+                                <tr>
+                                    <td height="50" width="200"><%= message_list[0][i] %></td>
+                                    <td height="50" width="750"><%= message_list[1][i] %></td>
+                                    <td height="50" width="200"><%= message_list[2][i] %></td>
+                                <tr>
+                            <% } %>
+                        </tdbody>
+                    </table>
+                </div>
+            </ul>
+        </div>
+    </body>
+</html>

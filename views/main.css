@@ -1,0 +1,24 @@
+.vertical-scroll-table{
+	color: #5e5e5e;
+    max-height: 120px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+.vertical-scroll-table table{
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.vertical-scroll-table table thead tr{
+	font-weight: bold;
+	text-align: center;
+	background-color: #f3f4f5;
+}
+.vertical-scroll-table table tbody tr:nth-child(even){
+	background-color: #fafbfc;
+}
+.vertical-scroll-table table td{
+	width: 33%;
+	padding: 5px;
+	border: 1px solid #ddd;
+}
