@@ -22,3 +22,13 @@
 	padding: 5px;
 	border: 1px solid #ddd;
 }
+.column-pair {
+    display: inline-block;
+    padding: 50px;
+}
+.inline-block_test {
+    display: inline-block;      /* インラインブロック要素にする */
+    background-color:  #ccc;    /* 背景色指定 */
+    padding:  20px;             /* 余白指定 */
+    height: 100px;              /* 高さ指定 */
+}

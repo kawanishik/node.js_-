@@ -1,7 +1,7 @@
 <html>
 <head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<link rel="stylesheet" type="views/css" href="main.css">
+<!-- <link rel="stylesheet" type="text/css" href="views/main.css"> -->
 <title>掲示板</title>
 <style type="text/css">
     thead, tbody {
@@ -12,6 +12,23 @@
       overflow-y: scroll;
       height: 400px;
     }
+    .inline-block_test {
+        display: inline-block;      /* インラインブロック要素にする */
+        background-color:  #ccc;    /* 背景色指定 */
+        padding:  20px;             /* 余白指定 */
+        height: 100px;              /* 高さ指定 */  
+    }
+    .column-pair1 {
+        display: inline-block;
+        padding: 10px;
+        width: 600px;
+        height: 300px;
+    }
+    .column-pair2 {
+        display: inline-block;
+        padding: 10px;
+    }
+
 </style>
 </head>
     <body>
@@ -20,17 +37,23 @@
         </nav>
         
         <div class="container">
-            <form action="/" method="POST">
-                <div class="form-group">
-                    <label for="text1">user : </label>
-                    <input type="text" id="message" name="message" class="form-control" autofocus>
-                    <label for="text2">メッセージ:</label>
-                    <input type="text" id="message" name="message" class="form-control" autofocus>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-block btn-outline-success">送信</button>
-                </div>
-            </form>
+            <div class="column-pair1">
+                <form action="/" method="POST">
+                    <div class="form-group">
+                        <label for="text1">user : </label>
+                        <input type="text" id="message" name="message" class="form-control" autofocus>
+                        <label for="text2">メッセージ:</label>
+                        <input type="text" id="message" name="message" class="form-control" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-outline-success">送信</button>
+                        <!-- <iframe src="views/button.html" name="hoge"></iframe> -->
+                    </div>
+                </form>
+            </div>
+            <div class="column-pair2">
+                <iframe width="400" height="250" src="https://www.youtube.com/embed/7vGbYscwSPI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
             <ul class="list-group">
                 <!-- <% message_list.forEach(function (name, message, key) { %>
                     <li class="list-group-item"><%= name %> <%= message %></li>

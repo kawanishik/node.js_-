@@ -8,6 +8,37 @@ var express = require('express');
 var fs = require('fs');
 var app = express();
 var bodyParser = require('body-parser');
+
+var mysql = require('mysql2');
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "node"
+});
+
+// データベースに接続できたらコンソールにConnectedを表示
+connection.connect((err) => {
+    if (err) {
+      console.log('error connecting: ' + err.stack);
+      return;
+    }
+    console.log('success connect sql');
+});
+
+var array_data = []
+connection.query('select * from board', function (error, results, fields) {
+    for(let step=0; step < results.length; step++) {
+        var n1 = [];
+        n1.push(results[step].user_name);
+        n1.push(results[step].message);
+        n1.push(results[step].time);
+        //console.log("n : ", n1);
+        array_data.push(n1);
+    }
+});
+//console.log("array : ", array_data);
+
 // 日付を取得する
 function LoadProc() {
     var target = document.getElementById("DateTimeDisp");
@@ -40,33 +71,58 @@ app.post('/', function (req, res) {
         if(req.body.message[0].length == 0) {
             req.body.message[0] = "Anonymous";
         }
-        name_array.push(req.body.message[0]);
-        message_array.push(req.body.message[1]);
         var now = new Date();
         var time = now.getFullYear()+"年" + (now.getMonth()+1)+"月" + now.getDate()+"日" + now.getHours()+"時" + now.getMinutes()+"分";
+        name_array.push(req.body.message[0]);
+        message_array.push(req.body.message[1]);
         time_array.push(time);
-        array.push(req.body.message + "," + time);
+        tmp = [];
+        tmp.push(req.body.message[0]);
+        tmp.push(req.body.message[1]);
+        tmp.push(time);
+        connection.query("insert into board set ?", {user_name:tmp[0], message:tmp[1], time:tmp[2]}, function(error,results,fields){
+            if(error) {
+                console.log("insert error");
+            } else {
+                array.push(tmp);
+            }
+        });
+        //array.push(req.body.message + "," + time);
+        //console.log("array : ", array);
         //console.log(req.body.message[0].length, ", ", req.body.message[1].length);
         //console.log(req.body.message);
-        fs.writeFileSync("data.txt", array.join("\r\n"));
+        //fs.writeFileSync("data.txt", array.join("\r\n"));
     }
     var now = new Date();
-    console.log(now.getFullYear()+"年"+now.getMonth()+1,"月",now.getDate(),"日",now.getHours(),"時",now.getMinutes(),"分")
+    //console.log(now.getFullYear()+"年"+now.getMonth()+1,"月",now.getDate(),"日",now.getHours(),"時",now.getMinutes(),"分")
 res.render('index', {message_list: [name_array, message_array, time_array]});
 })
 function getData() {
-    let data = fs.readFileSync("data.txt", {encoding: "utf-8"});
-    var array = [];
-    if (data.length > 0) {
-        array = data.split(/\r\n|\r|\n/);
-        //console.log("array : ", array);
-    }
+    // let data = fs.readFileSync("data.txt", {encoding: "utf-8"});
+    // var array = [];
+    // if (data.length > 0) {
+    //     array = data.split(/\r\n|\r|\n/);
+    // }
+    // connection.query('select * from board', function (error, results, fields) {
+    //     for(let step=0; step < results.length; step++) {
+    //         var n1 = [];
+    //         n1.push(results[step].user_name);
+    //         n1.push(results[step].message);
+    //         n1.push(results[step].time);
+    //         console.log(n1);
+    //         array.push(n1);
+    //     }
+    // });
+    // console.log("aa : ",array);
     var multi_array = [];
     var name_array = [];
     var message_array = [];
     var time_array = [];
-    for(let step=0; step < array.length; step++) {
-        var sentence_split = array[step].split(',');
+
+    for(let step=0; step < array_data.length; step++) {
+        //console.log(array_data[step]);
+        //var sentence_split = array_data[step].split(',');
+        var sentence_split = array_data[step];
         if(sentence_split[0].length == 0) {
             sentence_split[0] = "Anonymous";
         }
@@ -78,9 +134,10 @@ function getData() {
     }
     //console.log(multi_array);
     //console.log(multi_array.length);
-    return [name_array, message_array, time_array, array];
+    return [name_array, message_array, time_array, array_data];
     //return array;
 }
+
 app.listen(3000, function () {
 });
 
